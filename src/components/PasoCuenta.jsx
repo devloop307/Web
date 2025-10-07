@@ -76,12 +76,7 @@ function PasoCuenta({
 
         if (venta.ok && linkPago) {
           // 🔹 Abrir la pasarela de pago
-          window.open(linkPago, "_blank");
-
-          // 🔹 Cambiar a la pantalla de agradecimiento
-          setTimeout(() => {
-            onVerPantallaGracias(); // 👈 ahora paso 6
-          }, 800);
+          window.open(linkPago);
         } else {
           setMensaje("⚠️ No se encontró el link de pago.");
         }

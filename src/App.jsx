@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import PasoIndustria from "./components/PasoIndustria";
 import PasoModulos from "./components/PasoModulos";
@@ -20,6 +20,18 @@ function App() {
   const [precioInicial, setPrecioInicial] = useState(0);
   const [precioMensual, setPrecioMensual] = useState(0);
   const [seccionesSeleccionadas, setSeccionesSeleccionadas] = useState([]);
+  const [statusPago, setStatusPago] = useState(null); // 🔹 estado del modal de pago
+
+  // 🕵️ Detectar query param ?status=...
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const status = params.get("status");
+    if (status) {
+      setStatusPago(status);
+      // eliminar el query param de la URL para evitar duplicados
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, []);
 
   const handleSeleccionIndustria = (industria) => {
     setIndustriaSeleccionada(industria);
@@ -90,6 +102,11 @@ function App() {
         <CasosExito />
         {/* ⚫ Footer moderno */}
         <Footer />
+
+        {/* 🪟 Modal de estado de pago */}
+        {statusPago && (
+          <ModalPago status={statusPago} onClose={() => setStatusPago(null)} />
+        )}
       </div>
     );
   }
@@ -103,7 +120,7 @@ function App() {
         <PasoSecciones
           onContinuar={(activas) => {
             console.log("Secciones elegidas:", activas);
-            setSeccionesSeleccionadas(activas); // ✅ guardamos las secciones
+            setSeccionesSeleccionadas(activas);
             setPaso(3);
           }}
           onAtras={() => setPaso(1)}
@@ -117,7 +134,7 @@ function App() {
           precioInicial={precioInicial}
           precioMensual={precioMensual}
           onReiniciar={() => setPaso(2)}
-          onFinalizarCompra={() => setPaso(4)} // ✅ pasa al PasoCuenta
+          onFinalizarCompra={() => setPaso(4)}
         />
       )}
 
@@ -129,7 +146,7 @@ function App() {
           secciones={seccionesSeleccionadas}
           precioInicial={precioInicial}
           precioMensual={precioMensual}
-          industria={industriaSeleccionada} // ✅ nuevo prop
+          industria={industriaSeleccionada}
         />
       )}
 
@@ -143,8 +160,53 @@ function App() {
       {paso === 5 && <TerminosServicio onVolver={() => setPaso(4)} />}
       {paso === 6 && <PantallaGracias onVolverInicio={() => setPaso(0)} />}
 
+      {/* 🪟 Modal global */}
+      {statusPago && (
+        <ModalPago status={statusPago} onClose={() => setStatusPago(null)} />
+      )}
     </div>
   );
 }
+
+// 🧩 MODAL DE PAGO
+const ModalPago = ({ status, onClose }) => {
+  let titulo = "";
+  let mensaje = "";
+  let color = "";
+
+  if (status === "success") {
+    titulo = "✅ ¡Pago exitoso!";
+    mensaje = "Tu transacción se completó correctamente.";
+    color = "text-green-600";
+  } else if (status === "pending") {
+    titulo = "⏳ Pago pendiente";
+    mensaje = "Tu pago está en revisión. Te notificaremos cuando se confirme.";
+    color = "text-yellow-600";
+  } else {
+    titulo = "❌ Pago fallido";
+    mensaje = "Ocurrió un problema con tu pago. Intenta nuevamente.";
+    color = "text-red-600";
+  }
+
+  return (
+    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+      <motion.div
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.3 }}
+        className="bg-white rounded-2xl shadow-2xl p-8 w-[90%] max-w-md text-center"
+      >
+        <h2 className={`text-3xl font-bold mb-4 ${color}`}>{titulo}</h2>
+        <p className="text-gray-700 mb-6">{mensaje}</p>
+        <button
+          onClick={onClose}
+          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition"
+        >
+          Cerrar
+        </button>
+      </motion.div>
+    </div>
+  );
+};
 
 export default App;
