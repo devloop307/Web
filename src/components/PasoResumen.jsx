@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import fondoResumen from "../assets/oficina3.jpg";
-import Navbar from "./Navbar";
 
 function PasoResumen({
   industria,
@@ -22,11 +21,6 @@ function PasoResumen({
     >
       {/* 🩶 Capa translúcida */}
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
-
-      {/* 🔝 Navbar */}
-      <div className="relative z-20">
-        <Navbar />
-      </div>
 
       {/* 🧾 Contenedor principal */}
       <motion.div

@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import Navbar from "./Navbar";
 import fondoLegal from "../assets/oficina.jpg";
 
 export default function TerminosServicio({ onVolver }) {
@@ -13,11 +12,6 @@ export default function TerminosServicio({ onVolver }) {
     >
       {/* Capa oscura */}
       <div className="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
-
-      {/* Navbar */}
-      <div className="relative z-20">
-        <Navbar />
-      </div>
 
       {/* Contenido principal */}
       <motion.div

@@ -1,6 +1,6 @@
 // src/data/modulosData.js
 
-// 🏭 Industrias
+// 🏭 Industrias disponibles
 export const industrias = [
   { id: "clinica", nombre: "Clínica Dental" },
   { id: "tienda", nombre: "Tienda Online" },
@@ -10,39 +10,47 @@ export const industrias = [
   { id: "inmobiliaria", nombre: "Inmobiliaria" },
 ];
 
-// ⚙️ Módulos disponibles
+// ⚙️ Módulos oficiales (solo 5)
 export const modulos = [
   {
-    id: "pagos",
-    nombre: "Módulo de Pagos por WhatsApp",
-    precioInicial: 100,
-    precioMensual: 20,
+    id: "dashboard",
+    nombre: "Dashboard General",
+    inicial: 1250,
+    mensual: 20,
   },
   {
-    id: "citas",
-    nombre: "Módulo de Agendamiento de Citas",
-    precioInicial: 150,
-    precioMensual: 30,
+    id: "ventas",
+    nombre: "Módulo de Ventas",
+    inicial: 1800,
+    mensual: 30,
   },
   {
-    id: "analitica",
-    nombre: "Módulo de Análisis de Sentimiento",
-    precioInicial: 200,
-    precioMensual: 40,
+    id: "inventario",
+    nombre: "Módulo de Inventario",
+    inicial: 2250,
+    mensual: 25,
+  },
+  {
+    id: "clientes",
+    nombre: "Módulo de Clientes (CRM)",
+    inicial: 1380,
+    mensual: 25,
+  },
+  {
+    id: "reportes",
+    nombre: "Módulo de Reportes",
+    inicial: 1620,
+    mensual: 35,
   },
 ];
 
-// 💰 Precios por secciones del sitio (para PasoSecciones)
-export const preciosSecciones = {
-  introduccion: { inicial: 780, mensual: 10 },
-  productos: { inicial: 860, mensual: 20 },
-  servicios: { inicial: 750, mensual: 15 },
-  reservas: { inicial: 800, mensual: 25 },
-  testimonios: { inicial: 620, mensual: 10 },
-  galeria: { inicial: 950, mensual: 20 },
-  equipo: { inicial: 800, mensual: 15 },
-  contacto: { inicial: 540, mensual: 10 },
-  acerca: { inicial: 450, mensual: 8 },
-  footer: { inicial: 585, mensual: 5 },
-};
-
+// ⛑ Compatibilidad con PasoCuenta.jsx
+// Mantengo el nombre "preciosSecciones" EXACTAMENTE como lo usa tu código
+// pero ahora apunta a los módulos (para que no rompa nada)
+export const preciosSecciones = modulos.reduce((acc, item) => {
+  acc[item.id] = {
+    inicial: item.inicial,
+    mensual: item.mensual,
+  };
+  return acc;
+}, {});

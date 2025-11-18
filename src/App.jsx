@@ -20,7 +20,8 @@ function App() {
   const [precioInicial, setPrecioInicial] = useState(0);
   const [precioMensual, setPrecioMensual] = useState(0);
   const [seccionesSeleccionadas, setSeccionesSeleccionadas] = useState([]);
-  const [statusPago, setStatusPago] = useState(null); // 🔹 estado del modal de pago
+  const [statusPago, setStatusPago] = useState(null);
+  const [nombreEmpresa, setNombreEmpresa] = useState(""); // 👈 AÑADIDO
 
   // 🕵️ Detectar query param ?status=...
   useEffect(() => {
@@ -118,9 +119,10 @@ function App() {
 
       {paso === 2 && (
         <PasoSecciones
-          onContinuar={(activas) => {
+          onContinuar={(activas, empresa) => {
             console.log("Secciones elegidas:", activas);
             setSeccionesSeleccionadas(activas);
+            setNombreEmpresa(empresa);
             setPaso(3);
           }}
           onAtras={() => setPaso(1)}
@@ -147,6 +149,7 @@ function App() {
           precioInicial={precioInicial}
           precioMensual={precioMensual}
           industria={industriaSeleccionada}
+          nombreEmpresa={nombreEmpresa}
         />
       )}
 

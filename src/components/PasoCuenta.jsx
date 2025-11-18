@@ -10,6 +10,7 @@ function PasoCuenta({
   secciones,
   precioInicial,
   precioMensual,
+  nombreEmpresa
 }) {
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
@@ -64,6 +65,7 @@ function PasoCuenta({
             email,
             dni,
             telefono,
+            empresa: nombreEmpresa,
             items,
             precioInicialTotal: precioInicial,
             precioMensualTotal: precioMensual,
